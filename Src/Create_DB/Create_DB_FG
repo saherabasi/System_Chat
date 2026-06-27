@@ -1,0 +1,25 @@
+create database [SysChat]
+on primary
+( NAME = 'SysChat', FILENAME = N'D:\DataBases\SysChat\Main\SysChat.mdf' , SIZE = 524288KB , MAXSIZE = UNLIMITED, FILEGROWTH = 524288KB ), 
+( NAME = 'SysChatlog', FILENAME = N'D:\DataBases\SysChat\Log\SysChat_log.ldf' , SIZE = 524288KB , MAXSIZE = 2048GB , FILEGROWTH = 524288KB )
+
+GO
+
+
+alter database SysChat add filegroup FGIndex
+alter database SysChat add filegroup FGtable
+
+alter database SysChat add file(
+name = 'FileGroupIndex',
+filename = 'D:\DataBases\SysChat\FileGroup/FileGroupIndex.ndf'
+)to filegroup FGIndex
+
+alter database SysChat add file(
+name = 'FileGroupTable',
+filename = 'D:\DataBases\SysChat\FileGroup/FileGroupTable.ndf'
+)to filegroup FGTable
+
+alter database SysChat modify file (name = 'FileGroupIndex' , size = 524288kb , filegrowth = 524288kb)
+alter database SysChat modify file (name = 'FileGroupTable' , size = 524288kb , filegrowth = 524288kb)
+
+alter database SysChat modify filegroup fgtable default
