@@ -1,0 +1,21 @@
+create table usr.Users(
+UserID int identity primary key,
+Username nvarchar(50) unique not null,
+PhoneNumber nvarchar(15) unique not null,
+PasswordHash nvarchar(255) not null,
+Avatar nvarchar(500) null,
+IsOnline bit default 1,
+LastSeen datetime null,
+CreateDate datetime default getdate()
+)
+go
+create table UserProfile(
+UserProfileID int identity primary key,
+UserID int references usr.Users(UserID),
+FirstName nvarchar(30) null,
+LastName nvarchar(30) null,
+Bio nvarchar(50) null,
+BirthDate date null,
+Gender nvarchar(1),
+constraint CK_Gender check(Gender in ('M','F'))
+)
