@@ -1,0 +1,40 @@
+create table cnv.Groups(
+GroupID int primary key identity,
+Title nvarchar(100),
+CreatedBy int references usr.users(userid),
+Description nvarchar(200),
+IsActive bit default 1,
+CreateDate datetime default getdate()
+)
+go
+create table cnv.Channels(
+ChannelID int primary key identity,
+Title nvarchar(100),
+CreatedBy int references usr.users(userid),
+Description nvarchar(200),
+IsActive bit default 1,
+CreateDate datetime default getdate()
+)
+go
+create table cnv.PrivateChats(
+PrivateChatID int  primary key identity,
+User1 int references usr.users(userid),
+User2 int references usr.users(userid),
+CreateDate datetime default getdate()
+)
+go
+create table cnv.GroupMembers(
+GroupMemberID int primary key identity,
+GroupID int references cnv.Groups(GroupID),
+UserID int references usr.users(userid),
+Role nvarchar(10) default 'Member' constraint ck_GroupRole check(role in ('Member','Admin','Owner')),
+JoinedDate datetime default getdate()
+)
+go
+create table cnv.ChannelSubscribers(
+ChannelSubscriberID int primary key identity,
+ChannelID int references cnv.Channels(ChannelID),
+UserID int references usr.users(userid),
+Role nvarchar(10) default 'Member' constraint ck_ChannelRole check(role in ('Member','Admin','Owner')),
+SubscribedDate datetime default getdate()
+)
