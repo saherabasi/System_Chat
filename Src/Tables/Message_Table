@@ -1,0 +1,21 @@
+create table msg.Messages(
+MessageID int identity primary key ,
+SenderId int references usr.users(UserId),
+MessageType nvarchar(10) not null constraint ck_MsgType check(MessageType in('Private','Group','Channel')),
+ReferenceID int not null,
+Content nvarchar(max) not null,
+ParentMessageID int null references msg.Messages(MessageID),
+sentDate datetime default getdate(),
+EditedDate datetime,
+IsEdited bit default 0,
+IsDeleted bit default 0
+)
+go
+create table msg.MessageStatus(
+MessageStatusID int identity primary key ,
+MessageID int references msg.Messages(MessageID),
+recipientID int references usr.users(userid),
+IsRead bit default 0,
+ReadDate datetime,
+IsDelivered bit default 0
+)
