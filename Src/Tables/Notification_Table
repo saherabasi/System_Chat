@@ -1,0 +1,11 @@
+create table ntf.Notifications(
+    NotificationID int identity primary key,
+    UserID int null references usr.Users(UserID),       
+    SenderID int null references usr.Users(UserID),     
+    MessageID int null references msg.Messages(MessageID),
+    NotificationType nvarchar(20) default 'User' constraint ck_NtfType check(NotificationType in('User','Public','System')),        
+    Title nvarchar(100) not null,
+    Content nvarchar(500) null,
+    IsRead bit default 0,
+    CreatedDate datetime default getdate()
+)
